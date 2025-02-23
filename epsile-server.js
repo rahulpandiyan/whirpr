@@ -4,23 +4,23 @@
 'use strict';
 
 // Config
-var port = 8001;
+const PORT = process.env.PORT || 8001;  // Use Railway's assigned port if available
 
 // Load and initialize modules
-var express = require('express');
-var compression = require('compression');
-var http = require('http');
-var { Server } = require('socket.io');
+const express = require('express');
+const compression = require('compression');
+const http = require('http');
+const { Server } = require('socket.io');
 
-var app = express();
-var server = http.createServer(app);
-var io = new Server(server, {
+const app = express();
+const server = http.createServer(app);
+const io = new Server(server, {
   cors: { origin: "*" }  // Allow requests from any origin
 });
 
 // Start server
-server.listen(port, function () {
-  console.log('epsile server listening at port %d', port);
+server.listen(PORT, () => {
+  console.log(`epsile server listening at port ${PORT}`);
 });
 
 // Middleware
@@ -28,7 +28,7 @@ app.use(compression());
 app.use(express.static(__dirname + '/'));
 
 // Global variables, keeps the state of the app
-var sockets = {},
+let sockets = {},
   users = {},
   strangerQueue = false,
   peopleActive = 0,
@@ -40,12 +40,12 @@ function fillZero(val) {
 }
 
 function timestamp() {
-  var now = new Date();
-  return "[" + fillZero(now.getHours()) + ":" + fillZero(now.getMinutes()) + ":" + fillZero(now.getSeconds()) + "]";
+  const now = new Date();
+  return `[${fillZero(now.getHours())}:${fillZero(now.getMinutes())}:${fillZero(now.getSeconds())}]`;
 }
 
 // Listen for connections
-io.on('connection', function (socket) {
+io.on('connection', (socket) => {
   sockets[socket.id] = socket;
   users[socket.id] = { connectedTo: -1, isTyping: false };
 
@@ -68,7 +68,7 @@ io.on('connection', function (socket) {
   io.emit('stats', { people: peopleActive });
 
   // New conversation
-  socket.on("new", function () {
+  socket.on("new", () => {
     if (strangerQueue !== false) {
       users[socket.id].connectedTo = strangerQueue;
       users[strangerQueue].connectedTo = socket.id;
@@ -85,8 +85,8 @@ io.on('connection', function (socket) {
   });
 
   // Conversation ended
-  socket.on("disconn", function () {
-    var connTo = users[socket.id].connectedTo;
+  socket.on("disconn", () => {
+    const connTo = users[socket.id].connectedTo;
     if (strangerQueue === socket.id || strangerQueue === connTo) {
       strangerQueue = false;
     }
@@ -103,14 +103,14 @@ io.on('connection', function (socket) {
   });
 
   // Chat messages
-  socket.on('chat', function (message) {
+  socket.on('chat', (message) => {
     if (users[socket.id].connectedTo !== -1 && sockets[users[socket.id].connectedTo]) {
       sockets[users[socket.id].connectedTo].emit('chat', message);
     }
   });
 
   // Typing indicator
-  socket.on('typing', function (isTyping) {
+  socket.on('typing', (isTyping) => {
     if (users[socket.id].connectedTo !== -1 && sockets[users[socket.id].connectedTo] && users[socket.id].isTyping !== isTyping) {
       users[socket.id].isTyping = isTyping;
       sockets[users[socket.id].connectedTo].emit('typing', isTyping);
@@ -118,8 +118,8 @@ io.on('connection', function (socket) {
   });
 
   // Disconnect event
-  socket.on("disconnect", function (err) {
-    var connTo = users[socket.id]?.connectedTo ?? -1;
+  socket.on("disconnect", (err) => {
+    const connTo = users[socket.id]?.connectedTo ?? -1;
     if (connTo !== -1 && sockets[connTo]) {
       sockets[connTo].emit("disconn", { who: 2, reason: err?.toString() });
       users[connTo].connectedTo = -1;
@@ -139,4 +139,3 @@ io.on('connection', function (socket) {
     io.emit('stats', { people: peopleActive });
   });
 });
-
