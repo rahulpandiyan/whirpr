@@ -1,0 +1,385 @@
+@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600&display=swap');
+
+:root {
+    --primary-color: #fc143c;
+    --background-color: #E8F9FF;
+    --text-color: #212121;
+    --header-bg: #ffffff;
+    --header-shadow: rgba(0, 0, 0, 0.1);
+    --border-radius: 20px; /* Slightly more rounded for Plus UI feel */
+    --danger-color: #fc143c;
+    --secondary-color: #2A004E;
+    --stranger-message-bg: #E3F2FD;
+    --your-message-bg: #fc143c;
+}
+
+body {
+    font-family: 'Poppins', sans-serif;
+    background-color: var(--background-color);
+    color: var(--text-color);
+    margin: 0;
+    padding: 0;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: space-between; /* Ensures footer is at the bottom */
+    min-height: 100vh;
+    overflow-x: hidden;
+    padding-bottom: 60px; /* Space for footer */
+}
+
+/* Header */
+.header {
+    position: fixed; /* Fixed position */
+    top: 0;
+    left: 0;
+    width: 100%; /* Full width */
+    height: var(--header-height); /* Use the fixed height */
+    background: var(--header-bg);
+    box-shadow: 0 4px 6px var(--header-shadow);
+    padding: 5px 20px; /* Reduced padding */
+    display: flex;
+    align-items: center; /* Center items vertically */
+    justify-content: flex-start; /* Align items to the left */
+    z-index: 1000; /* Ensure it stays on top */
+    border-bottom-left-radius: var(--header-border-radius); /* Curve bottom left */
+    border-bottom-right-radius: var(--header-border-radius); /* Curve bottom right */
+    overflow: hidden; /* Prevent overflow from pseudo-element */
+}
+
+/* Pseudo-element for curved effect */
+.header::after {
+    content: '';
+    position: absolute;
+    bottom: -20px; /* Position it below the header */
+    left: 0;
+    width: 100%;
+    height: 40px; /* Height of the curve */
+    background: var(--header-bg); /* Match the header background */
+    border-top-left-radius: var(--header-border-radius); /* Curve top left */
+    border-top-right-radius: var(--header-border-radius); /* Curve top right */
+    z-index: -1; /* Place it behind the header */
+}
+
+.header-title {
+    display: flex;
+    flex-direction: column; /* Stack title and tagline vertically */
+    justify-content: center; /* Center vertically */
+    font-size: 20px; /* Adjust font size as needed */
+    font-weight: bold; /* Make the title bold */
+    color: #fc143c; /* Set the text color to #fc143c */
+    text-decoration: none; /* Remove underline from the link */
+    margin-right: 15px; /* Space between title and social icons */
+}
+
+.tagline {
+    font-size: 12px; /* Smaller font size for tagline */
+    color: #666; /* Gray color for tagline */
+    margin-top: 2px; /* Space between title and tagline */
+}
+
+.social-icons {
+    display: flex; /* Use flexbox for alignment */
+    align-items: center; /* Center icons vertically */
+}
+
+.social-icons a {
+    margin-left: 8px; /* Space between icons */
+}
+
+.social-icons img {
+    width: 20px; /* Set a smaller width for icons */
+    height: 20px; /* Set a smaller height for icons */
+    transition: transform 0.3s; /* Smooth transition for hover effect */
+}
+
+.social-icons img:hover {
+    transform: scale(1.1); /* Slightly enlarge icon on hover */
+}
+
+/* Welcome Screen - Initially Visible */
+#welcomeScreen {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    width: 100%;
+    max-width: 1000px; /* Increased width for larger card */
+    padding: 30px;
+    background: #fff;
+    border-radius: var(--border-radius);
+    box-shadow: 0 4px 8px var(--header-shadow);
+    margin-top: 100px; /* Adjusted spacing */
+}
+
+/* Chat Window */
+#chatWindow {
+    display: none;
+    width: 100%;
+    max-width: 1000px; /* Increased width for better card size */
+    margin: 80px auto 20px;
+    padding: 30px;
+    background: #fff;
+    border-radius: var(--border-radius);
+    box-shadow: 0 4px 8px var(--header-shadow);
+}
+
+#chatMainDiv{
+  display: flow-root;
+}
+
+#chatMain {
+    border: 1px solid var(--header-shadow);
+    border-radius: var(--border-radius);
+    padding: 20px;
+    background: #fff;
+    max-height: 500px;
+    overflow-y: auto;
+    display: flex;
+    flex-direction: column;
+    gap: 15px; /* Increased gap between messages */
+}
+
+#chatMainDiv {
+    display: flex;
+    flex-direction: column;
+    gap: 12px; /* Increased spacing between messages */
+    padding: 15px;
+    background-color: #f9f9f9; /* Light background for the chat area */
+    border-radius: 10px; /* Rounded corners for the chat area */
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1); /* Subtle shadow for depth */
+}
+
+/* Common Chat Bubble Styles */
+.message {
+    max-width: 75%;
+    padding: 12px 16px; /* Adjusted padding for a more compact look */
+    border-radius: 20px; /* More rounded for a smoother look */
+    display: inline-block;
+    word-wrap: break-word;
+    word-break: break-word;
+    font-size: 15px; /* Slightly smaller text for a cleaner look */
+    line-height: 1.5;
+    min-height: 45px; /* Ensures bubbles are not too small */
+    display: flex;
+    align-items: center; /* Vertically centers text */
+    position: relative; /* For pseudo-elements */
+}
+
+/* Your Messages - Right Side */
+.youMessage {
+    align-self: flex-end;
+    background-color: #007aff; /* Instagram-like blue */
+    color: white; /* White text for contrast */
+    text-align: left;
+    border-radius: 20px 20px 6px 20px; /* Rounded except bottom-left */
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1); /* Subtle shadow for depth */
+    padding: 14px 18px; /* Increased padding for better spacing */
+    max-width: 80%; /* Increased max-width for more space */
+}
+
+/* Stranger Messages - Left Side */
+.strangerMessage {
+    align-self: flex-start;
+    background-color: #e5e5ea; /* Light gray for stranger messages */
+    color: black;
+    text-align: left;
+    border-radius: 20px 20px 6px 20px; /* Rounded except bottom-right */
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1); /* Subtle shadow for depth */
+    padding: 14px 18px; /* Increased padding for better spacing */
+    max-width: 80%; /* Increased max-width for more space */
+}
+
+/* Chat Username */
+.youChat,
+.strangerChat {
+    font-weight: bold;
+    margin-right: 5px;
+    font-size: 14px; /* Slightly smaller font for usernames */
+}
+
+/* Optional: Add a timestamp */
+.timestamp {
+    font-size: 12px; /* Smaller font for timestamps */
+    color: #999; /* Light gray for timestamps */
+    position: absolute;
+    bottom: -18px; /* Position below the bubble */
+    right: 10px; /* Align to the right */
+}
+
+/* Chat Input Section */
+#panelRow {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    margin-top: 20px;
+}
+
+        /* Add styles for the chat area and send button */
+        #chatAreaWrap {
+            display: flex; /* Use flexbox for alignment */
+            align-items: center; /* Center items vertically */
+            width: 100%; /* Full width */
+        }
+
+        textarea {
+            width: 100%; /* Full width */
+            padding: 15px; /* Padding for textarea */
+            border: 1px solid #dcdcdc; /* Light gray border */
+            border-radius: 20px; /* Rounded corners */
+            font-size: 16px; /* Font size */
+            resize: none; /* Disable resizing */
+            background-color: #f9f9f9; /* Light background color */
+            box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1); /* Subtle shadow for depth */
+            transition: border-color 0.3s; /* Smooth transition for focus effect */
+        }
+
+        textarea:focus {
+            outline: none; /* Remove default outline */
+            border-color: #007aff; /* Change border color on focus */
+            box-shadow: 0 0 5px rgba(0, 122, 255, 0.5); /* Light blue shadow on focus */
+        }
+
+        #sendButton {
+            padding: 15px 20px; /* Padding for the button */
+            border: none; /* Remove default border */
+            border-radius: 20px; /* Rounded corners */
+            background-color: #007aff; /* Instagram-like blue */
+            color: white; /* White text */
+            font-size: 16px; /* Font size */
+            cursor: pointer; /* Pointer cursor on hover */
+            margin-left: 10px; /* Space between textarea and button */
+            transition: background-color 0.3s; /* Smooth transition for hover effect */
+        }
+
+        #sendButton:hover {
+            background-color: #005bb5; /* Darker blue on hover */
+        }
+
+        #sendButton:disabled {
+            background-color: #dcdcdc; /* Light gray when disabled */
+            cursor: not-allowed; /* Not-allowed cursor */
+        }
+/* Buttons */
+.button {
+    display: inline-block;
+    background: var(--primary-color);
+    color: #fff;
+    padding: 15px 20px;
+    border-radius: var(--border-radius);
+    text-decoration: none;
+    font-weight: bold;
+    transition: 0.3s;
+    border: none;
+    cursor: pointer;
+    width: 100%;
+    max-width: 250px; /* Increased max-width */
+    box-shadow: 0 3px 6px rgba(0, 0, 0, 0.15);
+}
+
+.button:hover {
+    background: var(--secondary-color);
+}
+
+/* Disconnect Button */
+#disconnectButton {
+    background: var(--danger-color);
+    color: #fff;
+    padding: 15px 20px;
+    border-radius: var(--border-radius);
+    font-weight: bold;
+    border: none;
+    cursor: pointer;
+    transition: 0.3s;
+    width: 100%;
+    max-width: 250px;
+    box-shadow: 0 3px 6px rgba(0, 0, 0, 0.15);
+}
+
+#disconnectButton:hover {
+    background: #B71C1C;
+}
+
+/* Footer */
+footer {
+    text-align: center;
+    padding: 20px;
+    background: var(--header-bg);
+    box-shadow: 0 -2px 5px var(--header-shadow);
+    border-radius: 20px; /* Rounded corners */
+    width: 90%; /* Set a width for the footer */
+    max-width: 600px; /* Optional: Set a maximum width */
+    position: fixed; /* Fixed position */
+    left: 50%; /* Center horizontally */
+    transform: translateX(-50%); /* Adjust for centering */
+    bottom: 20px; /* Position it above the bottom edge */
+    z-index: 1000; /* Ensure it stays on top */
+}
+
+.footer-content {
+    display: flex;
+    flex-direction: column; /* Stack links and text vertically */
+    align-items: center; /* Center items */
+}
+
+.footer-links {
+    margin-bottom: 10px; /* Space between links and text */
+}
+
+.footer-links a {
+    margin: 0 15px; /* Space between links */
+    text-decoration: none; /* Remove underline */
+    color: var(--text-color); /* Use text color variable */
+    transition: color 0.3s; /* Smooth transition for hover effect */
+}
+
+.footer-links a:hover {
+    color: var(--primary-color); /* Change color on hover */
+}
+
+.footer-text {
+    font-size: 14px; /* Adjust font size for footer text */
+    color: #666; /* Gray color for footer text */
+}
+
+/* Show chat after starting */
+.chat-active #chatWindow {
+    display: block;
+}
+
+.chat-active #welcomeScreen {
+    display: none;
+}
+
+/* Media Queries */
+@media screen and (max-width: 600px) {
+    .header {
+        padding: 15px;
+    }
+    
+    #chatWindow, #welcomeScreen {
+        width: 90%;
+        padding: 15px;
+    }
+    
+    #panelRow {
+        flex-direction: column;
+    }
+    
+    .button, #disconnectButton {
+        width: 100%;
+        max-width: none;
+    }
+
+    /* Font size adjustments for mobile */
+    .message {
+        background-color: #2A004E;
+        font-size: 14px;
+    }
+}
+
+.message:hover {
+    border-color: var(--secondary-color); /* Change border on hover */
+}
