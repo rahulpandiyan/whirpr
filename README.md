@@ -2,14 +2,14 @@
 # whirpr
 whispr
 =======
-epsile - an anonymous one-to-one chat
+Whispr - an anonymous one-to-one chat
 ====
 
 epsile got it name from epsilon, and it's an open-source clone of Omegle. It's using a node.js express+socket.io combo as server backend.
 
 Demo
 ---
-http://djazz.se:8001/
+https://whirpr.up.railway.app/
 
 Installation
 ---

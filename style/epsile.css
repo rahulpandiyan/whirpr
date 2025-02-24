@@ -396,3 +396,12 @@ footer {
 .message:hover {
     border-color: var(--secondary-color); /* Change border on hover */
 }
+
+#isTypingDiv {
+    display: none; /* Hidden by default */
+    font-style: italic;
+    color: gray;
+    font-size: 14px;
+    margin-top: 10px;
+  }
+  
