@@ -98,6 +98,7 @@ body {
 }
 
 /* Welcome Screen - Initially Visible */
+/* Welcome Screen - Centered Vertically */
 #welcomeScreen {
     display: flex;
     flex-direction: column;
@@ -105,12 +106,24 @@ body {
     justify-content: center;
     text-align: center;
     width: 100%;
-    max-width: 1000px; /* Increased width for larger card */
+    max-width: 90%; /* Adjusted max-width for better fit on mobile */
     padding: 30px;
-    background: #fff;
+    background: #ffffff; /* White background */
     border-radius: var(--border-radius);
-    box-shadow: 0 4px 8px var(--header-shadow);
-    margin-top: 100px; /* Adjusted spacing */
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1); /* Softer shadow */
+    margin: auto; /* Center it vertically */
+    flex-grow: 1; /* Allow it to grow and take available space */
+    margin-bottom: 60px; /* Space from the footer */
+}
+
+/* Ensure the body uses flexbox to center content */
+body {
+    display: flex;
+    flex-direction: column;
+    justify-content: center; /* Center content vertically */
+    align-items: center;
+    min-height: 100vh; /* Full height of the viewport */
+    padding-bottom: 60px; /* Space for footer */
 }
 
 /* Chat Window */
@@ -170,7 +183,7 @@ body {
 /* Your Messages - Right Side */
 .youMessage {
     align-self: flex-end;
-    background-color: #007aff; /* Instagram-like blue */
+    background-color: #833AB4; /* Instagram-like blue */
     color: white; /* White text for contrast */
     text-align: left;
     border-radius: 20px 20px 6px 20px; /* Rounded except bottom-left */
@@ -182,8 +195,8 @@ body {
 /* Stranger Messages - Left Side */
 .strangerMessage {
     align-self: flex-start;
-    background-color: #e5e5ea; /* Light gray for stranger messages */
-    color: black;
+    background-color:  #405DE6; /* Light gray for stranger messages */
+    color: white; /* White text for contrast */
     text-align: left;
     border-radius: 20px 20px 6px 20px; /* Rounded except bottom-right */
     box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1); /* Subtle shadow for depth */
